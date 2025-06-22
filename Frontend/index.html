@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./src/assets/image6.jpeg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NovaVoice</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+  <script>
+    // This will run in all tabs
+    window.addEventListener('message', (event) => {
+      // Verify the message is from our own domain for security
+      if (event.origin !== window.location.origin) return;
+      
+      switch(event.data.type) {
+        case 'ZOOM_IN':
+          document.body.style.zoom = (parseFloat(document.body.style.zoom) || 1) + event.data.amount;
+          break;
+          
+        case 'ZOOM_OUT':
+          document.body.style.zoom = Math.max(0.5, (parseFloat(document.body.style.zoom) || 1) - event.data.amount);
+          break;
+          
+        case 'SCROLL':
+          window.scrollBy({
+            top: event.data.direction === 'down' ? event.data.amount : -event.data.amount,
+            behavior: 'smooth'
+          });
+          break;
+      }
+    });
+    </script>
+</html>
